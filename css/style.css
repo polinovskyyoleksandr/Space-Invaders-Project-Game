@@ -14,12 +14,9 @@
     height: 600px;
     height: 100%;
     flex-wrap: wrap;
-    border: 1px solid yellow;
-
 }
 
 .grid div {
-    border: 1px solid red;
     flex-grow: 1;
     width: 4%;
     height: 4%;

@@ -34,15 +34,15 @@ createGrid()
     //}
 //})
 
-let playerIndex = 612;
+let playerIndex = 587;
 cells[playerIndex].classList.add('player');
 
 function movePlayer(e) { 
     cells[playerIndex].classList.remove('player')
-    if (e.key === 'ArrowLeft') {
+    if (e.key === 'ArrowLeft' && playerIndex > 575) {
         playerIndex -= 1;
     }
-    if (e.key === 'ArrowRight') {
+    if (e.key === 'ArrowRight' && playerIndex < cells.length - 26) {
         playerIndex += 1
     }
     cells[playerIndex].classList.add('player')
