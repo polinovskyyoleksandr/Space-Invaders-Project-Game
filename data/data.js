@@ -21,7 +21,7 @@ createGrid()
 
 //PLAYER'S MOVEMENT
 
-const player = 'X';
+let player;
 cells.push(player);
 
 const leftMovement = addEventListener
