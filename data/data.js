@@ -36,10 +36,24 @@ createGrid()
 
 let playerIndex = 612;
 cells[playerIndex].classList.add('player');
-//cells[612].textContent = 'X'
 
-function movePlayer 
+function movePlayer(e) { 
+    cells[playerIndex].classList.remove('player')
+    if (e.key === 'ArrowLeft') {
+        playerIndex -= 1;
+    }
+    if (e.key === 'ArrowRight') {
+        playerIndex += 1
+    }
+    cells[playerIndex].classList.add('player')
+}
 
+document.addEventListener('keydown', movePlayer)
+
+//document.querySelector('.player')
+//player.forEach(position => {
+//    position.innerHTML = 'X';
+//}) ?????
 
 
 
