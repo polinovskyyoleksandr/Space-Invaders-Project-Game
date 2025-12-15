@@ -21,9 +21,26 @@ createGrid()
 
 //PLAYER'S MOVEMENT
 
-let player;
-cells.push(player);
+//let player;
+//cells.push(player);
 
-const leftMovement = addEventListener
+//movement.addEventListener('keydown', (playerMovement) => {
+ //   if (playerMovement.defaultPrevented) {
+   //     return;
+    //}
+    //switch (playerMovement.key) {
+      //  case "ArrowLeft":
+
+    //}
+//})
+
+let playerIndex = 612;
+cells[playerIndex].classList.add('player');
+//cells[612].textContent = 'X'
+
+function movePlayer 
+
+
+
 
 
