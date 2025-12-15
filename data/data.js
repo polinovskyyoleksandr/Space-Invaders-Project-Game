@@ -55,6 +55,19 @@ document.addEventListener('keydown', movePlayer)
 //    position.innerHTML = 'X';
 //}) ?????
 
+//ALIENS 
+
+let aliens = [0, 2, 4, 6, 8, 10, 12, 14, 16]
+
+function addAliens() {
+    aliens.forEach(index => {
+        cells[index].classList.add('alien')
+    })
+}
+
+addAliens()
+
+
 
 
 

@@ -14,6 +14,7 @@
     height: 600px;
     height: 100%;
     flex-wrap: wrap;
+    border: 1px solid black;
 }
 
 .grid div {
@@ -24,4 +25,8 @@
 
 .player {
     background-color: blue;
+}
+
+.alien {
+    background-color: yellow;
 }
