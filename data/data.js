@@ -57,17 +57,31 @@ document.addEventListener('keydown', movePlayer)
 
 //ALIENS 
 
-let aliens = [0, 2, 4, 6, 8, 10, 12, 14, 16]
+let aliens = [0, 2, 4, 6, 8, 10, 12, 14, 16];
 
 function addAliens() {
     aliens.forEach(index => {
         cells[index].classList.add('alien')
-    })
+    });
 }
 
-addAliens()
+function removeAliens() {
+    aliens.forEach(index => {
+        cells[index].classList.remove('alien')
+    });
+}
 
+let direction = 1;
+const rightEdge =  cells.lenght % width === 0; 
 
+function moveAliens() {
+    removeAliens()
+    aliens.forEach((alien, i) => {
+        return aliens[i] = alien + direction;
+    })
+    addAliens()
+}
 
+setInterval(moveAliens, 500)
 
-
+console.log(rightEdge)
