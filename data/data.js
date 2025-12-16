@@ -70,9 +70,8 @@ function removeAliens() {
         cells[index].classList.remove('alien')
     });
 }
-
+addAliens()
 let direction = 1;
-const rightEdge =  cells.lenght % width === 0; 
 
 function moveAliens() {
     removeAliens()
@@ -82,6 +81,26 @@ function moveAliens() {
     addAliens()
 }
 
-setInterval(moveAliens, 500)
+setInterval(moveAliens, 1000)
 
-console.log(rightEdge)
+
+//SHOOTING
+
+let laserIndex = playerIndex;
+
+function shoot(e) {
+    if (e.key === ' ') {
+    setInterval(bulletMovement, 100)
+    }
+}
+
+function bulletMovement() {
+    cells[laserIndex].classList.remove('bullet')
+    laserIndex -= width
+    if (laserIndex < 0) {
+        clearInterval(bulletMovement)
+    }
+    cells[laserIndex].classList.add('bullet')
+}
+
+document.addEventListener('keydown', shoot)
