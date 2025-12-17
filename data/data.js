@@ -86,21 +86,23 @@ setInterval(moveAliens, 1000)
 
 //SHOOTING
 
-let laserIndex = playerIndex;
-
-function shoot(e) {
-    if (e.key === ' ') {
-    setInterval(bulletMovement, 100)
+function shoot () {
+    let bulletIndex = playerIndex;
+    function moveBullet() {
+        cells[bulletIndex].classList.remove('bullet')
+        bulletIndex -= width
+        if (bulletIndex < 0) {
+            clearInterval(bulletTimer)
+        }
+        cells[bulletIndex].classList.add('bullet')
     }
+    let bulletTimer = setInterval(moveBullet, 100)
 }
 
-function bulletMovement() {
-    cells[laserIndex].classList.remove('bullet')
-    laserIndex -= width
-    if (laserIndex < 0) {
-        clearInterval(bulletMovement)
-    }
-    cells[laserIndex].classList.add('bullet')
-}
+document.addEventListener('keydown', shootingKey)
 
-document.addEventListener('keydown', shoot)
+function shootingKey(e) {
+    if (e.keyCode === 32 ) {
+        shoot()
+    }
+}
