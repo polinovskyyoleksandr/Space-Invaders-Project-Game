@@ -134,6 +134,14 @@ function shoot () {
         if (bulletIndex < 0) {
             clearInterval(bulletTimer)
         }
+        // COLLISION
+    if (cells[bulletIndex].classList.contains('alien')) {
+        removeAliens()
+        cells[bulletIndex].classList.remove('bullet')
+        let hit = aliens.indexOf(bulletIndex)
+        aliens.splice(hit, 1)
+        clearInterval(bulletTimer)
+    }
         cells[bulletIndex].classList.add('bullet')
     }
     let bulletTimer = setInterval(moveBullet, 100)
@@ -147,16 +155,3 @@ function shootingKey(e) {
     }
 }
 
-// COLLISION
-
-function hitAlien() {
-    if (cells[bulletIndex].classList.contains('invader')) {
-        removeAliens()
-        cells[bulletIndex].classList.remove('bullet')
-        let hit = aliens.indexOf(bulletIndex)
-        aliens.splice(hit, 1)
-        clearInterval(bulletTimer)
-    }
-}
-
-hitAlien()
