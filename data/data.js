@@ -58,6 +58,7 @@ document.addEventListener('keydown', movePlayer)
 //ALIENS 
 
 let aliens = [1, 3, 5, 7, 9, 11, 13, 15, 17, 19];
+let direction = 1
 
 function addAliens() {
     aliens.forEach(index => {
@@ -75,18 +76,18 @@ addAliens()
 
 function moveAliens() {
     removeAliens()
-if ('RIGHT MOVEMENT') {
+if (direction === 1) {
     if (aliens[aliens.length - 1] % width === width - 1) {
-        moveLeft();
-        moveDown();
+    moveDown();
+    setTimeout(moveLeft, 200)
     } else {
         moveRight();
     }
 }
-else if ('LEFT MOVEMENT') {
+else if (direction === -1) {
     if (aliens[0] % width === 0) {
-        moveRight();
         moveDown();
+        setTimeout(moveRight, 200)
     } else {
         moveLeft()
     }
@@ -96,7 +97,8 @@ else if ('LEFT MOVEMENT') {
 function moveRight() {
     removeAliens()
     aliens.forEach((alien, i) => {
-        return aliens[i] = alien + 1
+        direction = 1
+        return aliens[i] = alien + direction
     })
     addAliens()
 } 
@@ -104,7 +106,8 @@ function moveRight() {
 function moveLeft() {
     removeAliens()
     aliens.forEach((alien, i) => {
-        return aliens[i] = alien - 1
+        direction = -1
+        return aliens[i] = alien + direction
     })
     addAliens()
 }
@@ -147,6 +150,13 @@ function shootingKey(e) {
 // COLLISION
 
 function hitAlien() {
-    if (alienIndex === bulletIndex) {
+    if (cells[bulletIndex].classList.contains('invader')) {
+        removeAliens()
+        cells[bulletIndex].classList.remove('bullet')
+        let hit = aliens.indexOf(bulletIndex)
+        aliens.splice(hit, 1)
+        clearInterval(bulletTimer)
     }
 }
+
+hitAlien()
