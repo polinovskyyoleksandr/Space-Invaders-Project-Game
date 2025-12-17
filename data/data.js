@@ -57,7 +57,7 @@ document.addEventListener('keydown', movePlayer)
 
 //ALIENS 
 
-let aliens = [0, 2, 4, 6, 8, 10, 12, 14, 16];
+let aliens = [1, 3, 5, 7, 9, 11, 13, 15, 17, 19];
 
 function addAliens() {
     aliens.forEach(index => {
@@ -70,18 +70,55 @@ function removeAliens() {
         cells[index].classList.remove('alien')
     });
 }
+
 addAliens()
-let direction = 1;
 
 function moveAliens() {
     removeAliens()
+if ('RIGHT MOVEMENT') {
+    if (aliens[aliens.length - 1] % width === width - 1) {
+        moveLeft();
+        moveDown();
+    } else {
+        moveRight();
+    }
+}
+else if ('LEFT MOVEMENT') {
+    if (aliens[0] % width === 0) {
+        moveRight();
+        moveDown();
+    } else {
+        moveLeft()
+    }
+}
+}
+
+function moveRight() {
+    removeAliens()
     aliens.forEach((alien, i) => {
-        return aliens[i] = alien + direction;
+        return aliens[i] = alien + 1
+    })
+    addAliens()
+} 
+
+function moveLeft() {
+    removeAliens()
+    aliens.forEach((alien, i) => {
+        return aliens[i] = alien - 1
     })
     addAliens()
 }
 
-setInterval(moveAliens, 1000)
+function moveDown() {
+    removeAliens()
+    aliens.forEach((alien, i) => {
+        return aliens[i] = alien + width
+    })
+    addAliens()
+}
+
+
+setInterval(moveAliens, 500)
 
 
 //SHOOTING
@@ -104,5 +141,12 @@ document.addEventListener('keydown', shootingKey)
 function shootingKey(e) {
     if (e.keyCode === 32 ) {
         shoot()
+    }
+}
+
+// COLLISION
+
+function hitAlien() {
+    if (alienIndex === bulletIndex) {
     }
 }
