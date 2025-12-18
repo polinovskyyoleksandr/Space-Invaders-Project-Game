@@ -48,7 +48,7 @@ function movePlayer(e) {
     cells[playerIndex].classList.add('player')
 }
 
-document.addEventListener('keydown', movePlayer)
+//document.addEventListener('keydown', movePlayer)
 
 //document.querySelector('.player')
 //player.forEach(position => {
@@ -57,7 +57,7 @@ document.addEventListener('keydown', movePlayer)
 
 //ALIENS 
 
-let aliens = [1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 31, 33, 35, 37, 39, 41, 43, 45, 47, 49, 51];
+let aliens = [ 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 28, 30, 32, 34, 36, 38, 40, 42, 44, 46, 48];
 let direction = 1
 
 function addAliens() {
@@ -87,7 +87,7 @@ if (direction === 1) {
 else if (direction === -1) {
     if (aliens[0] % width === 0) {
         moveDown();
-        setTimeout(moveRight, 200)
+    setTimeout(moveRight, 200)
     } else {
         moveLeft()
     }
@@ -121,7 +121,7 @@ function moveDown() {
 }
 
 
-setInterval(moveAliens, 500)
+//setInterval(moveAliens, 500)
 
 
 //SHOOTING
@@ -137,6 +137,9 @@ function shoot () {
         cells[bulletIndex].classList.remove('bullet');
         let hit = aliens.indexOf(bulletIndex);
         aliens.splice(hit, 1);
+        // SCORE
+        score += 500;
+        scoreDisplay.textContent = score;
         clearInterval(bulletTimer);
         return;
     }
@@ -145,7 +148,7 @@ function shoot () {
     let bulletTimer = setInterval(moveBullet, 100)
 }
 
-document.addEventListener('keydown', shootingKey)
+//document.addEventListener('keydown', shootingKey)
 
 function shootingKey(e) {
     if (e.keyCode === 32 ) {
@@ -153,3 +156,22 @@ function shootingKey(e) {
     }
 }
 
+// SCOREBOARD
+let score = 0;
+const scoreDisplay = document.querySelector('#scoreboard')
+
+// START BUTTON
+
+let gameStart = false;
+
+function startGame() {
+    if (gameStart) return
+    gameStart = true;
+    setInterval(moveAliens, 500);
+    document.addEventListener('keydown', movePlayer)
+    document.addEventListener('keydown', shootingKey)
+    document.querySelector('.start').disabled = true;
+}
+
+const startBtn = document.querySelector('.start')
+startBtn.addEventListener('click', startGame)
