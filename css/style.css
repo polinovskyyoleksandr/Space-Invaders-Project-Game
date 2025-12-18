@@ -61,15 +61,14 @@ p {
 .scoredisplay {
     display: flex;
     justify-items: center;
-    width: 100px;
+    width: 200px;
+    justify-content: space-around;
+    align-items: center;
 }
 
-.start {
-    display: flex;
-}
 
 .design {
-    justify-content: space-evenly;
+    justify-content: center;
     align-items: center;
     justify-items: center;
 }

@@ -92,6 +92,7 @@ else if (direction === -1) {
         moveLeft()
     }
 }
+collisionPlayerAlien()
 }
 
 let alienTimer;
@@ -140,6 +141,7 @@ function shoot () {
         cells[bulletIndex].classList.remove('bullet');
         let hit = aliens.indexOf(bulletIndex);
         aliens.splice(hit, 1);
+        win();
         // SCORE
         score += 500;
         scoreDisplay.textContent = score;
@@ -191,8 +193,33 @@ function restartGame () {
     cells[playerIndex].classList.add('player')
     alienTimer = setInterval(moveAliens, 500)
     document.querySelector('.restart').disabled = true;
+    score = 0;
+    scoreDisplay.textContent = score
 }
 
 const restartBtn = document.querySelector('.restart')
 restartBtn.addEventListener('click', restartGame)
 
+function collisionPlayerAlien() {
+    aliens.forEach((alienIndex) => {
+        if (alienIndex === playerIndex) {
+            gameOver()
+        }
+    })
+}
+
+
+function gameOver() {
+    clearInterval(bulletTimer)
+    clearInterval(alienTimer)
+    scoreDisplay.textContent = 'GAME OVER'
+}
+
+function win() {
+    if (aliens.lenght === 0) {
+        clearInterval(bulletTimer)
+        clearInterval(alienTimer)
+        scoreDisplay.textContent = 'YOU WIN!'
+        return;
+    }
+}
