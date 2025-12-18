@@ -1,5 +1,17 @@
 //console.log(3+2)
 
+const shootSound = new Audio('sound/8-bit-laser.mp3');
+const explosionSound = new Audio('sound/explosion.mp3');
+const themeSong = new Audio('sound/theme-song.mp3');
+const winSound = new Audio('sound/8bitwin.mp3');
+const loseSound = new Audio('sound/8bitlose.mp3')
+
+themeSong.play()
+themeSong.volume = 0.01;
+themeSong.loop = true
+
+window.addEventListener('load', themeSong)
+
 //GRID CREATION
 
 const cells = [];
@@ -131,8 +143,10 @@ function moveDown() {
 //SHOOTING
 
 function shoot () {
+    shootSound.play()
+    shootSound.volume = 0.3
     let bulletIndex = playerIndex;
-    function moveBullet() {
+    const bulletTimer = setInterval(() => {
         cells[bulletIndex].classList.remove('bullet')
         bulletIndex -= width
         if (bulletIndex < 0) {
@@ -143,20 +157,21 @@ function shoot () {
     if (cells[bulletIndex].classList.contains('alien')) {
         cells[bulletIndex].classList.remove('bullet');
         cells[bulletIndex].classList.remove('alien');
+        explosionSound.play()
+        explosionSound.volume = 0.05
         const hit = aliens.indexOf(bulletIndex);
         aliens.splice(hit, 1);
         // SCORE
         score += 500;
         scoreDisplay.textContent = score;
         clearInterval(bulletTimer);
+        win()
         return;
     }
     cells[bulletIndex].classList.add('bullet')
-    }
-    win();
-    bulletTimer = setInterval(moveBullet, 100)
+    }, 100)
 }
-let bulletTimer;
+
 //document.addEventListener('keydown', shootingKey)
 
 function shootingKey(e) {
@@ -188,8 +203,6 @@ startBtn.addEventListener('click', startGame)
 
 function restartGame () {
     clearInterval(alienTimer)
-    clearInterval(bulletTimer)
-    clearInterval(alienBulletTimer)
     cells.forEach((cell) => {
         cell.classList.remove('player', 'bullet', 'alien')
     })
@@ -220,10 +233,14 @@ function collisionPlayerAlien() {
 // WINLOSE CONDITIONS
 
 function gameOver() {
-    clearInterval(bulletTimer)
     clearInterval(alienTimer)
     clearInterval(alienBulletTimer)
+    cells.forEach((cell) => {
+        cell.classList.remove('bullet', 'alienbullet')
+    })
     scoreDisplay.textContent = 'GAME OVER'
+    loseSound.play()
+    loseSound.volume = 0.1
 
     document.removeEventListener('keydown', movePlayer)
     document.removeEventListener('keydown', shootingKey)
@@ -231,9 +248,14 @@ function gameOver() {
 
 function win() {
     if (aliens.length === 0) {
-        clearInterval(bulletTimer)
+        clearInterval(alienBulletTimer)
         clearInterval(alienTimer)
         scoreDisplay.textContent = 'YOU WIN!'
+        winSound.play()
+        winSound.volume = 0.1
+
+    document.removeEventListener('keydown', movePlayer)
+    document.removeEventListener('keydown', shootingKey)
         return;
     }
 }
