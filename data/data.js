@@ -57,7 +57,7 @@ document.addEventListener('keydown', movePlayer)
 
 //ALIENS 
 
-let aliens = [1, 3, 5, 7, 9, 11, 13, 15, 17, 19];
+let aliens = [1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 31, 33, 35, 37, 39, 41, 43, 45, 47, 49, 51];
 let direction = 1
 
 function addAliens() {
@@ -131,18 +131,16 @@ function shoot () {
     function moveBullet() {
         cells[bulletIndex].classList.remove('bullet')
         bulletIndex -= width
-        if (bulletIndex < 0) {
-            clearInterval(bulletTimer)
-        }
         // COLLISION
     if (cells[bulletIndex].classList.contains('alien')) {
-        removeAliens()
-        cells[bulletIndex].classList.remove('bullet')
-        let hit = aliens.indexOf(bulletIndex)
-        aliens.splice(hit, 1)
-        clearInterval(bulletTimer)
+        removeAliens();
+        cells[bulletIndex].classList.remove('bullet');
+        let hit = aliens.indexOf(bulletIndex);
+        aliens.splice(hit, 1);
+        clearInterval(bulletTimer);
+        return;
     }
-        cells[bulletIndex].classList.add('bullet')
+    cells[bulletIndex].classList.add('bullet')
     }
     let bulletTimer = setInterval(moveBullet, 100)
 }

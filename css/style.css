@@ -14,7 +14,7 @@ div {
 .grid-wrapper {
     display: flex;
     border: 3px solid black;
-    height: 500px;
+    height: 400px;
 }
 
 .grid {
@@ -23,7 +23,7 @@ div {
     height: 600px;
     height: 100%;
     flex-wrap: wrap;
-    border: 1px solid black;
+    border: 1px solid white;
 }
 
 .grid div {
@@ -31,7 +31,6 @@ div {
     flex-grow: 1;
     width: 4%;
     height: 4%;
-    border: 1px solid red;
 }
 
 .player {
