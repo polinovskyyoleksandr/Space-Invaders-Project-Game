@@ -135,11 +135,15 @@ function shoot () {
     function moveBullet() {
         cells[bulletIndex].classList.remove('bullet')
         bulletIndex -= width
+        if (bulletIndex < 0) {
+            clearInterval(bulletTimer)
+            return
+        }
         // COLLISION
     if (cells[bulletIndex].classList.contains('alien')) {
-        removeAliens();
         cells[bulletIndex].classList.remove('bullet');
-        let hit = aliens.indexOf(bulletIndex);
+        cells[bulletIndex].classList.remove('alien');
+        const hit = aliens.indexOf(bulletIndex);
         aliens.splice(hit, 1);
         // SCORE
         score += 500;
@@ -165,7 +169,7 @@ function shootingKey(e) {
 let score = 0;
 const scoreDisplay = document.querySelector('#scoreboard')
 
-// START BUTTON
+// START AND RESTART BUTTON
 
 let gameStart = false;
 
@@ -198,6 +202,8 @@ function restartGame () {
     document.querySelector('.restart').disabled = true;
     score = 0;
     scoreDisplay.textContent = score
+    document.addEventListener('keydown', movePlayer)
+    document.addEventListener('keydown', shootingKey)
 }
 
 const restartBtn = document.querySelector('.restart')
@@ -211,6 +217,7 @@ function collisionPlayerAlien() {
     })
 }
 
+// WINLOSE CONDITIONS
 
 function gameOver() {
     clearInterval(bulletTimer)
@@ -233,6 +240,8 @@ function win() {
 
 let alienBulletTimer
 let alienBullet
+
+// ALIEN BOMBS
 
 function bombDropping() {
     let alienBullet = aliens[Math.floor(Math.random() * aliens.length)]
