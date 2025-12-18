@@ -141,7 +141,6 @@ function shoot () {
         cells[bulletIndex].classList.remove('bullet');
         let hit = aliens.indexOf(bulletIndex);
         aliens.splice(hit, 1);
-        win();
         // SCORE
         score += 500;
         scoreDisplay.textContent = score;
@@ -150,7 +149,8 @@ function shoot () {
     }
     cells[bulletIndex].classList.add('bullet')
     }
-    let bulletTimer = setInterval(moveBullet, 100)
+    win();
+    bulletTimer = setInterval(moveBullet, 100)
 }
 let bulletTimer;
 //document.addEventListener('keydown', shootingKey)
@@ -216,10 +216,38 @@ function gameOver() {
 }
 
 function win() {
-    if (aliens.lenght === 0) {
+    if (aliens.length === 0) {
         clearInterval(bulletTimer)
         clearInterval(alienTimer)
         scoreDisplay.textContent = 'YOU WIN!'
         return;
     }
 }
+
+let alienBulletTimer
+let alienBullet
+
+function bombDropping() {
+    const shootingAlien = aliens[Math.floor(Math.random() * aliens.length)]
+
+    alienBullet = shootingAlien
+
+    function moveAlienBullet() {
+        cells[alienBullet].classList.remove('alienbullet')
+        alienBullet += width
+        if (alienBullet >= cells.length) {
+        clearInterval(alienBulletTimer)
+        return
+        }
+    }
+if (alienBullet === playerIndex) {
+    cells[alienBullet].classList.remove('alienbullet')
+    gameOver()
+    clearInterval(alienBulletTimer)
+    return;
+}
+cells[alienBullet].classList.add('alienbullet')
+alienBulletTimer = setInterval(moveAlienBullet, 150)
+}
+
+setInterval(bombDropping, 500)
