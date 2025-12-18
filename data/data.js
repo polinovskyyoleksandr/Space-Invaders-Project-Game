@@ -165,9 +165,8 @@ const scoreDisplay = document.querySelector('#scoreboard')
 let gameStart = false;
 
 function startGame() {
-    if (gameStart) return
     gameStart = true;
-    setInterval(moveAliens, 500);
+    setInterval(moveAliens, 400);
     document.addEventListener('keydown', movePlayer)
     document.addEventListener('keydown', shootingKey)
     document.querySelector('.start').disabled = true;
@@ -175,3 +174,31 @@ function startGame() {
 
 const startBtn = document.querySelector('.start')
 startBtn.addEventListener('click', startGame)
+
+function restartGame() {
+        gameStart = false;
+        clearInterval(bulletTimer)
+        clearInterval(moveAliens)
+        cells.forEach((cell) => {
+            cell.classList.remove('player', 'alien', 'bullet')
+        addAliens()
+        playerIndex = 587
+        cells[playerIndex].classList.add('player')
+        score = 0;
+        scoreDisplay.textContent = score
+        })
+}
+
+function restartBtn() {
+    if (startGame) {
+        restartGame()
+    }
+
+    gameStart = true;
+    setInterval(moveAliens, 500)
+    document.addEventListener('keydown', movePlayer)
+    document.addEventListener('keydown', shootingKey)
+    startBtn.textContent = 'Restart'
+}
+
+startBtn.addEventListener('click', restartBtn)
