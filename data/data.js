@@ -172,6 +172,7 @@ let gameStart = false;
 function startGame() {
     gameStart = true;
     alienTimer = setInterval(moveAliens, 500)
+    setInterval(bombDropping, 500)
     document.addEventListener('keydown', movePlayer)
     document.addEventListener('keydown', shootingKey)
     document.querySelector('.start').disabled = true;
@@ -180,9 +181,11 @@ function startGame() {
 const startBtn = document.querySelector('.start')
 startBtn.addEventListener('click', startGame)
 
+
 function restartGame () {
     clearInterval(alienTimer)
     clearInterval(bulletTimer)
+    clearInterval(alienBulletTimer)
     cells.forEach((cell) => {
         cell.classList.remove('player', 'bullet', 'alien')
     })
@@ -212,7 +215,11 @@ function collisionPlayerAlien() {
 function gameOver() {
     clearInterval(bulletTimer)
     clearInterval(alienTimer)
+    clearInterval(alienBulletTimer)
     scoreDisplay.textContent = 'GAME OVER'
+
+    document.removeEventListener('keydown', movePlayer)
+    document.removeEventListener('keydown', shootingKey)
 }
 
 function win() {
@@ -228,26 +235,18 @@ let alienBulletTimer
 let alienBullet
 
 function bombDropping() {
-    const shootingAlien = aliens[Math.floor(Math.random() * aliens.length)]
-
-    alienBullet = shootingAlien
-
-    function moveAlienBullet() {
+    let alienBullet = aliens[Math.floor(Math.random() * aliens.length)]
+    alienBulletTimer = setInterval(() => {
         cells[alienBullet].classList.remove('alienbullet')
         alienBullet += width
-        if (alienBullet >= cells.length) {
-        clearInterval(alienBulletTimer)
-        return
+        if (alienBullet === playerIndex) {
+            cells[alienBullet].classList.remove('alienbullet')
+            gameOver()
+            clearInterval(alienBulletTimer)
+            return;
         }
-    }
-if (alienBullet === playerIndex) {
-    cells[alienBullet].classList.remove('alienbullet')
-    gameOver()
-    clearInterval(alienBulletTimer)
-    return;
-}
-cells[alienBullet].classList.add('alienbullet')
-alienBulletTimer = setInterval(moveAlienBullet, 150)
+        cells[alienBullet].classList.add('alienbullet')
+    }, 150)
 }
 
-setInterval(bombDropping, 500)
+//setInterval(bombDropping, 500)
