@@ -6,7 +6,7 @@ const themeSong = new Audio('sound/theme-song.mp3');
 const winSound = new Audio('sound/8bitwin.mp3');
 const loseSound = new Audio('sound/8bitlose.mp3')
 
-themeSong.play()
+//themeSong.play()
 themeSong.volume = 0.01;
 themeSong.loop = true
 
@@ -191,7 +191,7 @@ let gameStart = false;
 function startGame() {
     gameStart = true;
     alienTimer = setInterval(moveAliens, 500)
-    setInterval(bombDropping, 500)
+    bombTimer = setInterval(bombDropping, 500)
     document.addEventListener('keydown', movePlayer)
     document.addEventListener('keydown', shootingKey)
     document.querySelector('.start').disabled = true;
@@ -201,8 +201,51 @@ const startBtn = document.querySelector('.start')
 startBtn.addEventListener('click', startGame)
 
 
-function restartGame () {
+function restartWave () {
     clearInterval(alienTimer)
+    clearInterval(bombTimer)
+    clearInterval(alienBulletTimer)
+    cells.forEach((cell) => {
+        cell.classList.remove('player', 'bullet', 'alien')
+    })
+    aliens = [ 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 28, 30, 32, 34, 36, 38, 40, 42, 44, 46, 48];
+    direction = 1
+    addAliens()
+    cells[playerIndex].classList.add('player')
+    alienTimer = setInterval(moveAliens, 500)
+    bombTimer = setInterval(bombDropping, 500)
+    setInterval(alienBulletTimer, 150)
+    scoreDisplay.textContent = score
+    waveTwo()
+    document.addEventListener('keydown', movePlayer)
+    document.addEventListener('keydown', shootingKey)
+}
+
+function waveTwo() {
+    if (score >= 22000) {
+    clearInterval(alienTimer)
+    clearInterval(bombTimer)
+    clearInterval(alienBulletTimer)
+    cells.forEach((cell) => {
+        cell.classList.remove('player', 'bullet', 'alien')
+    })
+    aliens = [ 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 28, 30, 32, 34, 36, 38, 40, 42, 44, 46, 48, 53, 55, 57, 59, 61, 63, 65, 67, 69, 71, 73];
+    direction = 1
+    addAliens()
+    cells[playerIndex].classList.add('player')
+    alienTimer = setInterval(moveAliens, 500)
+    bombTimer = setInterval(bombDropping, 500)
+    setInterval(alienBulletTimer, 150)
+    scoreDisplay.textContent = score
+    document.addEventListener('keydown', movePlayer)
+    document.addEventListener('keydown', shootingKey)
+    }
+}
+
+function restartGame() {
+    clearInterval(alienTimer)
+    clearInterval(bombTimer)
+    clearInterval(alienBulletTimer)
     cells.forEach((cell) => {
         cell.classList.remove('player', 'bullet', 'alien')
     })
@@ -212,6 +255,8 @@ function restartGame () {
     playerIndex = 587;
     cells[playerIndex].classList.add('player')
     alienTimer = setInterval(moveAliens, 500)
+    bombTimer = setInterval(bombDropping, 500)
+    setInterval(alienBulletTimer, 150)
     document.querySelector('.restart').disabled = true;
     score = 0;
     scoreDisplay.textContent = score
@@ -235,8 +280,9 @@ function collisionPlayerAlien() {
 function gameOver() {
     clearInterval(alienTimer)
     clearInterval(alienBulletTimer)
+    clearInterval(bombTimer)
     cells.forEach((cell) => {
-        cell.classList.remove('bullet', 'alienbullet')
+        cell.classList.remove('bullet', 'alienbullet', 'player')
     })
     scoreDisplay.textContent = 'GAME OVER'
     loseSound.play()
@@ -250,18 +296,17 @@ function win() {
     if (aliens.length === 0) {
         clearInterval(alienBulletTimer)
         clearInterval(alienTimer)
-        scoreDisplay.textContent = 'YOU WIN!'
+        clearInterval(bombTimer)
+        restartWave()
         winSound.play()
         winSound.volume = 0.1
-
-    document.removeEventListener('keydown', movePlayer)
-    document.removeEventListener('keydown', shootingKey)
         return;
     }
 }
 
-let alienBulletTimer
-let alienBullet
+let alienBulletTimer;
+let alienBullet;
+let bombTimer;
 
 // ALIEN BOMBS
 
